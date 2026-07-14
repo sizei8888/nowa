@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>swiadek.js</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+  :root{
+    --bg:#0d0f0c;
+    --panel:#14170f;
+    --green:#8fd14f;
+    --amber:#e0a83e;
+    --clear:#cfe8e0;
+    --muted:#5c6152;
+    --red:#e05c4a;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(143,209,79,0.06), transparent 50%),
+      var(--bg);
+    font-family:'JetBrains Mono', monospace;
+    color:var(--green);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .window{
+    width:100%;
+    max-width:720px;
+    background:var(--panel);
+    border:1px solid #262b1e;
+    border-radius:10px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    overflow:hidden;
+  }
+
+  .titlebar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    background:#191d13;
+    border-bottom:1px solid #262b1e;
+  }
+  .dot{width:11px;height:11px;border-radius:50%;}
+  .dot.r{background:#e05c4a;}
+  .dot.y{background:#e0a83e;}
+  .dot.g{background:#8fd14f;}
+  .filename{
+    margin-left:10px;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  .code{
+    padding:26px 26px 30px;
+    font-size:14.5px;
+    line-height:1.65;
+    white-space:pre-wrap;
+    overflow-x:auto;
+  }
+
+  .ln{color:#3d4232; user-select:none; display:inline-block; width:22px;}
+  .kw{color:#e0a83e;}
+  .fn{color:#7fb7d1;}
+  .str{color:var(--clear);}
+  .com{color:#5c6152; font-style:italic;}
+  .num{color:#c88fd1;}
+  .plain{color:#c9d1b8;}
+
+  .banner{
+    margin-top:6px;
+    border-left:2px solid var(--amber);
+    padding:14px 18px;
+    background:rgba(224,168,62,0.06);
+    color:var(--clear);
+    font-size:14px;
+  }
+  .banner b{color:var(--amber);}
+
+  .actions{
+    display:flex;
+    gap:14px;
+    padding:0 26px 28px;
+  }
+
+  button{
+    flex:1;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:700;
+    padding:14px 18px;
+    border-radius:8px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  button:focus-visible{outline:2px solid var(--green); outline-offset:2px;}
+
+  .yes{
+    background:var(--green);
+    color:#0d0f0c;
+  }
+  .yes:hover{transform:translateY(-2px); box-shadow:0 8px 20px -6px rgba(143,209,79,0.5);}
+
+  .no{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid #2a2f22;
+  }
+  .no:hover{color:var(--red); border-color:var(--red);}
+
+  .result{
+    padding:0 26px 26px;
+    font-size:14px;
+    color:var(--clear);
+    min-height:24px;
+  }
+  .result .console-line{color:var(--muted);}
+  .result strong{color:var(--green);}
+
+  @media (max-width:480px){
+    .code{font-size:12.5px; padding:18px;}
+    .actions{flex-direction:column;}
+  }
+
+  #confetti-canvas{
+    position:fixed;
+    top:0; left:0;
+    width:100vw; height:100vh;
+    pointer-events:none;
+    z-index:999;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="window">
+  <div class="titlebar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="filename">swiadek.js — Node v22 — uruchomiono przez kumpla</span>
+  </div>
+
+  <div class="code"><span class="com">// prośba o bycie świadkiem — kompiluje się bez błędów, mam nadzieję że Ty też</span>
+
+<span class="kw">const</span> <span class="plain">przyjaciel</span> = <span class="str">"Ty"</span>;
+<span class="kw">let</span> <span class="plain">piwo</span> = <span class="plain">Infinity</span>;
+<span class="kw">let</span> <span class="plain">wodka</span> = <span class="plain">Infinity</span>;
+
+<span class="kw">function</span> <span class="fn">czyZostanieszSwiadkiem</span>(<span class="plain">przyjaciel</span>) {
+  <span class="kw">if</span> (przyjaciel.lubiPiwo && przyjaciel.lubiWodke && przyjaciel.jestDobrymCzlowiekiem) {
+    <span class="kw">return</span> <span class="plain">true</span>;
+  }
+  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"to niemożliwe, znam Cię za dobrze"</span>);
+}
+
+<span class="kw">try</span> {
+  <span class="kw">const</span> decyzja = <span class="fn">czyZostanieszSwiadkiem</span>({
+    lubiPiwo: <span class="plain">true</span>,
+    lubiWodke: <span class="plain">true</span>,
+    jestDobrymCzlowiekiem: <span class="plain">true</span>
+  });
+} <span class="kw">finally</span> {
+  piwo<span class="num">--</span>; <span class="com">// stawiam pierwsze</span>
+  wodka<span class="num">--</span>; <span class="com">// i drugie</span>
+}</div>
+
+  <div class="banner">
+    Stary, biorę ślub 💍 — potrzebuję kogoś, kto nie spanikuje przy podpisach,
+    wygłosi toast (próba mile widziana, ale nieobowiązkowa) i wytrzyma ze mną do rana.
+    <br><br>
+    <b>return: TAK / NIE</b> — poprawna odpowiedź to TAK.
+  </div>
+
+  <div class="actions">
+    <button class="yes" id="btn-yes">✅ TAK, zostanę świadkiem</button>
+    <button class="no" id="btn-no">❌ NIE (żartowałem)</button>
+  </div>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function odpowiedz(tak){
+    const el = document.getElementById('result');
+    if(tak){
+      el.innerHTML = '<span class="console-line">$ node swiadek.js</span><br><strong>✔ Sukces. Piwo i wódka już się chłodzą. Do zobaczenia na próbie.</strong>';
+      confettiBurst();
+    } else {
+      el.innerHTML = '<span class="console-line">$ node swiadek.js</span><br><strong style="color:#e05c4a">✖ Error: odpowiedź odrzucona — spróbuj ponownie, tym razem poprawnie.</strong>';
+    }
+  }
+
+  document.getElementById('btn-yes').addEventListener('click', () => odpowiedz(true));
+  document.getElementById('btn-no').addEventListener('click', () => odpowiedz(false));
+
+  // --- konfetti / serpentyny ---
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const colors = ['#8fd14f', '#e0a83e', '#cfe8e0', '#c88fd1', '#7fb7d1', '#e05c4a'];
+  let particles = [];
+  let rafId = null;
+
+  function makeParticle(){
+    const isStrip = Math.random() > 0.5;
+    return {
+      x: Math.random() * canvas.width,
+      y: -20 - Math.random() * canvas.height * 0.3,
+      w: isStrip ? 6 + Math.random()*4 : 8 + Math.random()*6,
+      h: isStrip ? 16 + Math.random()*20 : 8 + Math.random()*6,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      speedY: 2 + Math.random()*3,
+      speedX: (Math.random()-0.5) * 2.5,
+      rot: Math.random()*Math.PI*2,
+      rotSpeed: (Math.random()-0.5) * 0.25,
+      isStrip
+    };
+  }
+
+  function confettiBurst(){
+    resize(); // upewnij się, że canvas ma poprawny rozmiar tuż przed startem
+    particles = [];
+    const count = 160;
+    for(let i=0;i<count;i++) particles.push(makeParticle());
+    if(!rafId) animate();
+    setTimeout(()=>{ for(let i=0;i<60;i++) particles.push(makeParticle()); }, 400);
+  }
+
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.y += p.speedY;
+      p.x += p.speedX + Math.sin(p.y*0.02);
+      p.rot += p.rotSpeed;
+    });
+    particles = particles.filter(p => p.y < canvas.height + 40);
+
+    particles.forEach(p=>{
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      if(p.isStrip){
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0,0,p.w/2,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    if(particles.length > 0){
+      rafId = requestAnimationFrame(animate);
+    } else {
+      rafId = null;
+    }
+  }
+</script>
+
+</body>
+</html>
